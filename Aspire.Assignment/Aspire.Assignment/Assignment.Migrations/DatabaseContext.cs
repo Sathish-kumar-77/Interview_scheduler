@@ -20,8 +20,7 @@ namespace Assignment.Migrations
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public DbSet<App> App { get; set; }
-        public DbSet<User> User { get; set; }
+        
         public DbSet<Users> Users { get; set; }
         public DbSet<SuperAdmin> SuperAdmins { get; set; }
         public DbSet<PanelCoordinator> PanelCoordinators { get; set; }

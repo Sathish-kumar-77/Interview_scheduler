@@ -5,36 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Assignment.Migrations.Migrations
 {
-    public partial class InitialCreate2 : Migration
+    public partial class InitialCreate6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Weapon",
-                table: "App",
-                newName: "Type");
-
-            migrationBuilder.RenameColumn(
-                name: "Moniker",
-                table: "App",
-                newName: "Price");
-
-            migrationBuilder.RenameColumn(
-                name: "Clan",
-                table: "App",
-                newName: "Developer");
-
-            migrationBuilder.RenameColumn(
-                name: "Bio",
-                table: "App",
-                newName: "Description");
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "SuperAdminUserId",
-                table: "User",
-                type: "TEXT",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
@@ -110,6 +84,27 @@ namespace Assignment.Migrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Password = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    SuperAdminUserId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    AddedOn = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Users_SuperAdminUserId",
+                        column: x => x.SuperAdminUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Interviews",
                 columns: table => new
                 {
@@ -158,11 +153,6 @@ namespace Assignment.Migrations.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_SuperAdminUserId",
-                table: "User",
-                column: "SuperAdminUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AvailabilitySlots_PanelMemberId",
                 table: "AvailabilitySlots",
                 column: "PanelMemberId");
@@ -193,6 +183,11 @@ namespace Assignment.Migrations.Migrations
                 column: "TARecruiterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_SuperAdminUserId",
+                table: "User",
+                column: "SuperAdminUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_PanelCoordinatorUserId",
                 table: "Users",
                 column: "PanelCoordinatorUserId");
@@ -206,23 +201,15 @@ namespace Assignment.Migrations.Migrations
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_User_Users_SuperAdminUserId",
-                table: "User",
-                column: "SuperAdminUserId",
-                principalTable: "Users",
-                principalColumn: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_User_Users_SuperAdminUserId",
-                table: "User");
-
             migrationBuilder.DropTable(
                 name: "Interviews");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "AvailabilitySlots");
@@ -232,34 +219,6 @@ namespace Assignment.Migrations.Migrations
 
             migrationBuilder.DropTable(
                 name: "Role");
-
-            migrationBuilder.DropIndex(
-                name: "IX_User_SuperAdminUserId",
-                table: "User");
-
-            migrationBuilder.DropColumn(
-                name: "SuperAdminUserId",
-                table: "User");
-
-            migrationBuilder.RenameColumn(
-                name: "Type",
-                table: "App",
-                newName: "Weapon");
-
-            migrationBuilder.RenameColumn(
-                name: "Price",
-                table: "App",
-                newName: "Moniker");
-
-            migrationBuilder.RenameColumn(
-                name: "Developer",
-                table: "App",
-                newName: "Clan");
-
-            migrationBuilder.RenameColumn(
-                name: "Description",
-                table: "App",
-                newName: "Bio");
         }
     }
 }
