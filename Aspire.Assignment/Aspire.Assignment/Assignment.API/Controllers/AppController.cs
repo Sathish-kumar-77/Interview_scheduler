@@ -17,12 +17,10 @@ namespace Assignment.Controllers
     public class AppController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMediator _mediatorr;
 
         public AppController(IMediator mediator)
         {
             _mediator = mediator;
-            _mediatorr = mediator;
         }
 
         [HttpGet]
