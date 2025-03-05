@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Assignment.Contracts.Data.Entities;
 
-public class PanelMember : User
+public class PanelMember : Users
 {
 
 

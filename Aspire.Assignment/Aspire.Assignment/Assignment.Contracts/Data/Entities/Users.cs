@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Assignment.Contracts.Data.Entities;
 
-public class User
+public class Users
 {
 
     [Key]
-    public int Id { get; set; }
+    public Guid UserId { get; set; }
 
     [Required]
     [MaxLength(100)]
-    public string ?Username { get; set; }
+    public string ?Name { get; set; }
 
     [Required]
     [MaxLength(150)]
@@ -20,13 +20,13 @@ public class User
 
     [Required]
     [MaxLength(255)]
-    public string ?Password { get; set; }
+    public string ?PasswordHash { get; set; }
 
    
     
 
-
-  
-
+    [ForeignKey("Role")]
+    public int RoleId { get; set; } 
+    public Role ?Role { get; set; } 
 
 }
