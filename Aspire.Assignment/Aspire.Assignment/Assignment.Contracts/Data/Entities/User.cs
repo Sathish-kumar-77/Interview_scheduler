@@ -1,15 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Assignment.Contracts.Data.Entities
+namespace Assignment.Contracts.Data.Entities;
+
+public class User
 {
-    public class User : BaseEntity
-    {
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
+
+    [Key]
+    public Guid UserId { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string ?Name { get; set; }
+
+    [Required]
+    [MaxLength(150)]
+    public string ?Email { get; set; }
+
+    [Required]
+    [MaxLength(255)]
+    public string ?PasswordHash { get; set; }
+
+   
+    
+
+    [ForeignKey("Role")]
+    public int RoleId { get; set; } 
+    public Role ?Role { get; set; } 
+
+  
+
+
 }
