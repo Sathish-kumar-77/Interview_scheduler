@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Assignment.Contracts.Data.Entities;
 
-public class User : BaseEntity
+public class User
 {
 
     [Key]
@@ -14,6 +14,9 @@ public class User : BaseEntity
     [MaxLength(100)]
     public string ?Username { get; set; }
 
+    [Required]
+    [MaxLength(150)]
+    public string ?Email { get; set; }
 
     [Required]
     [MaxLength(255)]

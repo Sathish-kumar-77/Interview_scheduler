@@ -7,7 +7,7 @@ namespace Assignment.Contracts.Data.Entities;
 public class Interview
 {
     [Key]
-    public Guid InterviewId { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
     public Guid CandidateId { get; set; }

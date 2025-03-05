@@ -7,11 +7,12 @@ namespace Assignment.Contracts.Data.Entities;
 public class Slot
 {
      [Key]
-    public Guid SlotId { get; set; }
+    public Guid SlotId { get; set; } = Guid.NewGuid();
+    
 
     [Required]
     [ForeignKey("PanelMemberId")]
-    public Guid  PanelMemberId{ get; set; }
+    public int  PanelMemberId{ get; set; }
     
     public PanelMember ?PanelMember { get; set; }
 

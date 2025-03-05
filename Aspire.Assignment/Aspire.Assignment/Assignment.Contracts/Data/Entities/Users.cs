@@ -8,7 +8,7 @@ public class Users
 {
 
     [Key]
-    public Guid UserId { get; set; }
+    public Guid UserId { get; set; } = Guid.NewGuid();
 
     [Required]
     [MaxLength(100)]
