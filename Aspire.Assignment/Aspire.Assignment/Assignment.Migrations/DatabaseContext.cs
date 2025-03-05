@@ -22,5 +22,17 @@ namespace Assignment.Migrations
 
         public DbSet<App> App { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<SuperAdmin> SuperAdmins { get; set; }
+        public DbSet<PanelCoordinator> PanelCoordinators { get; set; }
+        public DbSet<PanelMember> PanelMembers { get; set; }
+        public DbSet<TARecruiter> TARecruiters { get; set; }
+        public DbSet<TAAdmin> TAAdmins { get; set; }
+        public DbSet<ReportingManager> ReportingManagers { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<Interview> Interviews { get; set; }
+        public DbSet<Slot> AvailabilitySlots { get; set; }
+
+
     }
 }

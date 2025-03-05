@@ -10,16 +10,16 @@ public class Interview
     public Guid InterviewId { get; set; }
 
     [Required]
-    public int CandidateId { get; set; }
+    public Guid CandidateId { get; set; }
     [ForeignKey("CandidateId")]
     public Candidate? Candidate { get; set; }
 
     [Required]
-    public int PanelMemberId { get; set; }
+    public Guid PanelMemberId { get; set; }
     [ForeignKey("PanelMemberId")]
     public PanelMember? PanelMember { get; set; }
 
-    public int? TARecruiterId { get; set; }
+    public Guid? TARecruiterId { get; set; }
     [ForeignKey("TARecruiterId")]
     public TARecruiter? TARecruiter { get; set; }
     [Required]
