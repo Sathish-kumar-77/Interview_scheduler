@@ -12,15 +12,15 @@ public class Users
 
     [Required]
     [MaxLength(100)]
-    public string ?Name { get; set; }
+    public string Name { get; set; }
 
     [Required]
     [MaxLength(150)]
-    public string ?Email { get; set; }
+    public string Email { get; set; }
 
     [Required]
     [MaxLength(255)]
-    public string ?PasswordHash { get; set; }
+    public string PasswordHash { get; set; }
 
    
     

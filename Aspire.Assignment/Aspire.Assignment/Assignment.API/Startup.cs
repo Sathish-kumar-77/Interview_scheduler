@@ -25,6 +25,7 @@ namespace Assignment
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPersistence(Configuration);
+            
             services.AddCore();
             services.AddMarketplaceAuthentication(Configuration);
             services.Configure<ApiBehaviorOptions>(options =>
@@ -39,6 +40,7 @@ namespace Assignment
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Aspire Marketplace App API", Description = "Aspire Marketplace App  is a  solution, built to demonstrate implementing market place to sell/download the app which present in the market place ", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
