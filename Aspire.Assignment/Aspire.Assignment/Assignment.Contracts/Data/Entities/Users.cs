@@ -22,11 +22,9 @@ public class Users
     [MaxLength(255)]
     public string PasswordHash { get; set; }
 
-   
-    
 
-    [ForeignKey("Role")]
-    public Guid RoleId { get; set; } 
-    public Role ?Role { get; set; } 
+    public string RoleName { get; set; }
+    
+    
 
 }

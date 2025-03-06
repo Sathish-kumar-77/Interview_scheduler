@@ -44,39 +44,36 @@ namespace Assignment.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.Created)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
-        public async Task<IActionResult> Post([FromBody] CreateUsersDTO model)
+        public async Task<IActionResult> Post([FromBody] CreateUsersDTO? model)
+{
+    if (model == null)
+    {
+        return BadRequest(new BaseResponseDTO
         {
-            try
-            {
-                var command = new CreateUsersCommand(model);
-                var response = await _mediator.Send(command);
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Authentication:Jwt:Secret"));
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new[] { new Claim("userId", model.UserId.ToString()) }),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
+            IsSuccess = false,
+           
+        });
+    }
 
-                // Return the user and token in the response
-                return Ok(new
-                {
-                    user = model,
-                    token = tokenHandler.WriteToken(token)
-                });
-                //return StatusCode((int)HttpStatusCode.Created, response);
-            }
-            catch (InvalidRequestBodyException ex)
-            {
-                return BadRequest(new BaseResponseDTO
-                {
-                    IsSuccess = false,
-                    Errors = ex.Errors
-                });
-            }
-        }
+    var command = new CreateUsersCommand(model);
+    var response = await _mediator.Send(command);
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Authentication:Jwt:Secret"));
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Subject = new ClaimsIdentity(new[] { new Claim("userId", model.UserId.ToString()) }),
+        Expires = DateTime.UtcNow.AddDays(7),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+    };
+    var token = tokenHandler.CreateToken(tokenDescriptor);
+
+    return Ok(new
+    {
+        user = model,
+        token = tokenHandler.WriteToken(token)
+    });
+}
+
 
         [HttpGet]
         [Route("{id}")]

@@ -11,17 +11,38 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assignment.Migrations.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250305105242_InitialCreate6")]
-    partial class InitialCreate6
+    [Migration("20250306054609_InitialCreate11")]
+    partial class InitialCreate11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
 
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.Candidate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ReportingManagerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReportingManagerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Candidates");
+                });
+
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.Interview", b =>
                 {
-                    b.Property<Guid>("InterviewId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -48,13 +69,13 @@ namespace Assignment.Migrations.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("TAAdminUserId")
+                    b.Property<Guid?>("TAAdminId")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("TARecruiterId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("InterviewId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CandidateId");
 
@@ -62,27 +83,86 @@ namespace Assignment.Migrations.Migrations
 
                     b.HasIndex("SlotId");
 
-                    b.HasIndex("TAAdminUserId");
+                    b.HasIndex("TAAdminId");
 
                     b.HasIndex("TARecruiterId");
 
                     b.ToTable("Interviews");
                 });
 
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.Role", b =>
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelCoordinator", b =>
                 {
-                    b.Property<Guid>("RoleId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(50)
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("RoleId");
+                    b.Property<Guid>("usersUserId")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("Role");
+                    b.HasKey("Id");
+
+                    b.HasIndex("usersUserId");
+
+                    b.ToTable("PanelCoordinators");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("AllocatedEndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("AllocatedStartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Experience")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("InterviewLevel")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("PanelCoordinatorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Skill")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PanelCoordinatorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PanelMembers");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.ReportingManager", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReportingManagers");
                 });
 
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.Slot", b =>
@@ -100,7 +180,10 @@ namespace Assignment.Migrations.Migrations
                     b.Property<bool>("IsBooked")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("PanelMemberId")
+                    b.Property<int>("PanelMemberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("PanelMemberId1")
                         .HasColumnType("TEXT");
 
                     b.Property<TimeSpan>("StartTime")
@@ -108,9 +191,41 @@ namespace Assignment.Migrations.Migrations
 
                     b.HasKey("SlotId");
 
-                    b.HasIndex("PanelMemberId");
+                    b.HasIndex("PanelMemberId1");
 
                     b.ToTable("AvailabilitySlots");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.TAAdmin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TAAdmins");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.TARecruiter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TARecruiters");
                 });
 
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.User", b =>
@@ -119,7 +234,9 @@ namespace Assignment.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("AddedOn")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
@@ -167,73 +284,15 @@ namespace Assignment.Migrations.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("RoleId")
+                    b.Property<string>("RoleName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Users");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Users");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.Candidate", b =>
-                {
-                    b.HasBaseType("Assignment.Contracts.Data.Entities.Users");
-
-                    b.Property<Guid>("ReportingManagerId")
-                        .HasColumnType("TEXT");
-
-                    b.HasIndex("ReportingManagerId");
-
-                    b.HasDiscriminator().HasValue("Candidate");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelCoordinator", b =>
-                {
-                    b.HasBaseType("Assignment.Contracts.Data.Entities.Users");
-
-                    b.HasDiscriminator().HasValue("PanelCoordinator");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelMember", b =>
-                {
-                    b.HasBaseType("Assignment.Contracts.Data.Entities.Users");
-
-                    b.Property<DateTime>("AllocatedEndDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("AllocatedStartDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Experience")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("InterviewLevel")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("PanelCoordinatorUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Skill")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasIndex("PanelCoordinatorUserId");
-
-                    b.HasDiscriminator().HasValue("PanelMember");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.ReportingManager", b =>
-                {
-                    b.HasBaseType("Assignment.Contracts.Data.Entities.Users");
-
-                    b.HasDiscriminator().HasValue("ReportingManager");
                 });
 
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.SuperAdmin", b =>
@@ -243,18 +302,23 @@ namespace Assignment.Migrations.Migrations
                     b.HasDiscriminator().HasValue("SuperAdmin");
                 });
 
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.TAAdmin", b =>
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.Candidate", b =>
                 {
-                    b.HasBaseType("Assignment.Contracts.Data.Entities.Users");
+                    b.HasOne("Assignment.Contracts.Data.Entities.ReportingManager", "ReportingManager")
+                        .WithMany("Candidates")
+                        .HasForeignKey("ReportingManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasDiscriminator().HasValue("TAAdmin");
-                });
+                    b.HasOne("Assignment.Contracts.Data.Entities.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.TARecruiter", b =>
-                {
-                    b.HasBaseType("Assignment.Contracts.Data.Entities.Users");
+                    b.Navigation("ReportingManager");
 
-                    b.HasDiscriminator().HasValue("TARecruiter");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.Interview", b =>
@@ -279,7 +343,7 @@ namespace Assignment.Migrations.Migrations
 
                     b.HasOne("Assignment.Contracts.Data.Entities.TAAdmin", null)
                         .WithMany("ManagedInterviews")
-                        .HasForeignKey("TAAdminUserId");
+                        .HasForeignKey("TAAdminId");
 
                     b.HasOne("Assignment.Contracts.Data.Entities.TARecruiter", "TARecruiter")
                         .WithMany("ScheduledInterviews")
@@ -294,15 +358,72 @@ namespace Assignment.Migrations.Migrations
                     b.Navigation("TARecruiter");
                 });
 
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelCoordinator", b =>
+                {
+                    b.HasOne("Assignment.Contracts.Data.Entities.Users", "users")
+                        .WithMany()
+                        .HasForeignKey("usersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("users");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelMember", b =>
+                {
+                    b.HasOne("Assignment.Contracts.Data.Entities.PanelCoordinator", null)
+                        .WithMany("PanelMembers")
+                        .HasForeignKey("PanelCoordinatorId");
+
+                    b.HasOne("Assignment.Contracts.Data.Entities.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.ReportingManager", b =>
+                {
+                    b.HasOne("Assignment.Contracts.Data.Entities.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.Slot", b =>
                 {
                     b.HasOne("Assignment.Contracts.Data.Entities.PanelMember", "PanelMember")
                         .WithMany("Slots")
-                        .HasForeignKey("PanelMemberId")
+                        .HasForeignKey("PanelMemberId1");
+
+                    b.Navigation("PanelMember");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.TAAdmin", b =>
+                {
+                    b.HasOne("Assignment.Contracts.Data.Entities.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PanelMember");
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.TARecruiter", b =>
+                {
+                    b.HasOne("Assignment.Contracts.Data.Entities.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.User", b =>
@@ -310,35 +431,6 @@ namespace Assignment.Migrations.Migrations
                     b.HasOne("Assignment.Contracts.Data.Entities.SuperAdmin", null)
                         .WithMany("ManagedUsers")
                         .HasForeignKey("SuperAdminUserId");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.Users", b =>
-                {
-                    b.HasOne("Assignment.Contracts.Data.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.Candidate", b =>
-                {
-                    b.HasOne("Assignment.Contracts.Data.Entities.ReportingManager", "ReportingManager")
-                        .WithMany("Candidates")
-                        .HasForeignKey("ReportingManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReportingManager");
-                });
-
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.PanelMember", b =>
-                {
-                    b.HasOne("Assignment.Contracts.Data.Entities.PanelCoordinator", null)
-                        .WithMany("PanelMembers")
-                        .HasForeignKey("PanelCoordinatorUserId");
                 });
 
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.Candidate", b =>
@@ -361,11 +453,6 @@ namespace Assignment.Migrations.Migrations
                     b.Navigation("Candidates");
                 });
 
-            modelBuilder.Entity("Assignment.Contracts.Data.Entities.SuperAdmin", b =>
-                {
-                    b.Navigation("ManagedUsers");
-                });
-
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.TAAdmin", b =>
                 {
                     b.Navigation("ManagedInterviews");
@@ -374,6 +461,11 @@ namespace Assignment.Migrations.Migrations
             modelBuilder.Entity("Assignment.Contracts.Data.Entities.TARecruiter", b =>
                 {
                     b.Navigation("ScheduledInterviews");
+                });
+
+            modelBuilder.Entity("Assignment.Contracts.Data.Entities.SuperAdmin", b =>
+                {
+                    b.Navigation("ManagedUsers");
                 });
 #pragma warning restore 612, 618
         }

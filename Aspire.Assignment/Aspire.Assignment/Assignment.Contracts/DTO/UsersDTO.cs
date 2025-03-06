@@ -13,5 +13,5 @@ public class UsersDTO
 
     public string ?PasswordHash { get; set; }
 
-    public Guid RoleId { get; set; } 
+    public string ?RoleName { get; set; } 
 }

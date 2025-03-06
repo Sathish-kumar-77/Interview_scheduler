@@ -49,7 +49,7 @@ namespace Assignment.Providers.Handlers.Commands
     if (string.IsNullOrEmpty(model.PasswordHash))
         throw new Exception("Password cannot be empty.");
 
-    if (model.RoleId == Guid.Empty)
+    if (model.RoleName == null)
         throw new Exception("RoleId cannot be empty.");
 
 
@@ -59,7 +59,7 @@ namespace Assignment.Providers.Handlers.Commands
                 Name = model.Name,
                 PasswordHash = model.PasswordHash,
                 Email = model.Email,
-                RoleId = model.RoleId
+                RoleName = model.RoleName
 
             };
              entity.PasswordHash= _passwordHasher.HashPassword(entity, model.PasswordHash);
